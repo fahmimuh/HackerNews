@@ -16,37 +16,41 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/title"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtCreator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtTitle"
-
-            android:gravity="center"
             android:layout_marginEnd="8dp"
-            android:text="@string/fahmi"
-            android:drawableStart="@drawable/ic_person_black_24dp" />
+            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="@string/fahmi" />
+
         <TextView
             android:id="@+id/txtComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtTitle"
-            android:gravity="center"
             android:layout_marginEnd="8dp"
             android:layout_toStartOf="@id/txtScore"
-            android:drawableStart="@drawable/ic_comment_black_24dp" />
+            android:drawableStart="@drawable/ic_comment_black_24dp"
+            android:drawablePadding="3dp"
+            android:gravity="center" />
+
         <TextView
             android:id="@+id/txtScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtTitle"
-            android:gravity="center"
             android:layout_alignParentEnd="true"
-            android:drawableStart="@drawable/ic_mood_black_24dp" />
+            android:drawableStart="@drawable/ic_mood_black_24dp"
+            android:drawablePadding="3dp"
+            android:gravity="center" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
