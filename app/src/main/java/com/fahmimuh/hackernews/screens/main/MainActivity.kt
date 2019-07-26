@@ -1,17 +1,19 @@
 package com.fahmimuh.hackernews.screens.main
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fahmimuh.hackernews.R
 import com.fahmimuh.hackernews.data.network.models.StoryResponse
 import com.fahmimuh.hackernews.data.network.services.ApiRepository
 import com.fahmimuh.hackernews.screens.detail.DetailActivity
 import com.fahmimuh.hackernews.util.invisible
 import com.fahmimuh.hackernews.util.visible
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
+
 
 class MainActivity : AppCompatActivity(), MainView {
     private var storyResponses: MutableList<StoryResponse> = mutableListOf()
@@ -21,12 +23,12 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(com.fahmimuh.hackernews.R.layout.activity_main)
 
         val request = ApiRepository
 
         adapter = MainAdapter(storyResponses) {
-            startActivity<DetailActivity>("detail" to it)
+            startActivityForResult<DetailActivity>(0, "detail" to it)
         }
 
         presenter = MainPresenter(this, request)
@@ -35,6 +37,8 @@ class MainActivity : AppCompatActivity(), MainView {
         rvNews.adapter = adapter
 
         presenter.getTopStoriesId()
+
+
 
     }
 
@@ -62,6 +66,17 @@ class MainActivity : AppCompatActivity(), MainView {
             storyResponses.addAll(data)
         }
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0){
+            if (resultCode == Activity.RESULT_OK) {
+                val favoriteData = data?.getStringExtra("title")
+                txtFavorite.text = favoriteData
+
+            }
+        }
     }
 
 

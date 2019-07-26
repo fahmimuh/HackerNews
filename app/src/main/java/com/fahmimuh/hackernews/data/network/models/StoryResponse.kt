@@ -8,29 +8,29 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class StoryResponse(
         @SerializedName("by")
-        val `by`: String,
+        val `by`: String?,
 
         @SerializedName("descendants")
-        val descendants: Int,
+        val descendants: Int?,
 
         @SerializedName("id")
-        val id: Int,
+        val id: Int?,
 
         @SerializedName("kids")
-        val kids: List<Int>,
+        val kids: List<Int>?,
 
         @SerializedName("score")
-        val score: Int,
+        val score: Int?,
 
         @SerializedName("time")
-        val time: Int,
+        val time: Int?,
 
         @SerializedName("title")
-        val title: String,
+        val title: String?,
 
         @SerializedName("type")
-        val type: String,
+        val type: String?,
 
         @SerializedName("url")
-        val url: String
+        val url: String?
 ) : Parcelable

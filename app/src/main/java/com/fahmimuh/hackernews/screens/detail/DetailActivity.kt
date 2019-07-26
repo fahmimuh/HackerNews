@@ -5,18 +5,22 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fahmimuh.hackernews.R
 import com.fahmimuh.hackernews.data.network.models.CommentResponse
 import com.fahmimuh.hackernews.data.network.models.StoryResponse
 import com.fahmimuh.hackernews.data.network.services.ApiRepository
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
+import android.content.Intent
+import android.app.Activity
+import com.fahmimuh.hackernews.R
+
 
 class DetailActivity : AppCompatActivity(), DetailView {
     private var commentResponse: MutableList<CommentResponse> = mutableListOf()
     private lateinit var presenter: DetailPresenter
     private lateinit var adapter: DetailAdapter
+    private var storyDetail: StoryResponse? = null
+    private var favoriteState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,19 +37,20 @@ class DetailActivity : AppCompatActivity(), DetailView {
         rvComment.layoutManager = LinearLayoutManager(this)
         rvComment.adapter = adapter
 
-        val storyDetail = intent.extras?.getParcelable<StoryResponse>("detail")
+        storyDetail = intent.extras?.getParcelable<StoryResponse>("detail")
 
         txtTitle.text = storyDetail?.title
         txtCreator.text = storyDetail?.by
 
-        for (i in 0 until storyDetail?.kids?.size!!) {
-            presenter.getComment(storyDetail.kids[i])
+        if (storyDetail?.kids?.size != null) {
+            for (i in 0 until storyDetail!!.kids!!.size) {
+                presenter.getComment(storyDetail!!.kids!![i])
+            }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
-        var menuItem = menu
         return true
     }
 
@@ -56,7 +61,10 @@ class DetailActivity : AppCompatActivity(), DetailView {
                 true
             }
             R.id.add_to_favorite -> {
-
+                favoriteState = favoriteState == false
+                if (favoriteState == true){
+                    toast("Set to Favotire")
+                }
                 true
             }
 
@@ -65,9 +73,16 @@ class DetailActivity : AppCompatActivity(), DetailView {
     }
 
     override fun showComment(data: List<CommentResponse>) {
-        if(data != null){
-            commentResponse.addAll(data)
-        }
+        commentResponse.addAll(data)
         adapter.notifyDataSetChanged()
+    }
+
+    override fun finish() {
+        if (favoriteState == true){
+            val intent = Intent()
+            intent.putExtra("title", storyDetail?.title )
+            setResult(Activity.RESULT_OK, intent)
+        }
+        super.finish()
     }
 }
