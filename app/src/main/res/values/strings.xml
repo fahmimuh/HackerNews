@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Hacker News</string>
+    <string name="judul">Judul</string>
+    <string name="fahmi">Fahmi</string>
+    <string name="comment">Comment</string>
+    <string name="title">Title</string>
+</resources>
